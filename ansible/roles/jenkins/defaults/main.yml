@@ -1,0 +1,55 @@
+# ansible/roles/jenkins/defaults/main.yml
+---
+# Настройки timezone
+common_timezone: "UTC"
+
+# Базовая директория для всех сервисов
+#base_dir: /home/ec2-user/jenkins
+#pp_user: ec2-user
+jenkins_admin_password: "admin"
+jenkins_username: admin
+#jenkins_api_token: 111ff6320da45de5fe6b2befb50531dd62
+
+# group_vars/jenkins.yml или в defaults/main.yml роли
+jenkins_repo_url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
+jenkins_repo_key: "https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
+jenkins_repo_path: "/etc/yum.repos.d/jenkins.repo"
+java_version: "java-21-amazon-corretto"
+
+# inventory или group_vars/jenkins.yml 
+jenkins_url: "http://{{ ansible_host }}:8080"
+# или jenkins_url: "http://{{ hostvars[inventory_hostname]['ansible_host'] }}:8080"
+
+jenkins_plugins:
+  # Базовые
+###  - git
+###  - github
+#  - workflow-aggregator        # Pipeline
+#  - pipeline-stage-view
+##  - credentials-binding
+##  - ssh-agent
+  
+  # Automation tools
+###  - ansible
+###  - terraform
+  
+  # Docker
+#  - docker-workflow
+#  - docker-plugin
+  
+  # Security
+#  - role-strategy              # Role-based access control
+#  - matrix-auth                # Матричная авторизация
+#  - credentials                # Управление credentials
+#  - hashicorp-vault-plugin     # Интеграция с Vault (если будешь использовать)
+###  - aws-credentials            # Для AWS secrets
+  
+  # Monitoring & Notifications
+#  - prometheus                 # Метрики для твоего Prometheus
+#  - slack                      # Уведомления (если нужно)
+  
+  # Useful extras
+#  - timestamper                # Время в логах
+#  - build-timeout              # Таймауты для builds
+#  - ws-cleanup                 # Очистка workspace
+  - ansicolor                  # Цветные логи

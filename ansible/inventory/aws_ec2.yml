@@ -1,0 +1,52 @@
+# AWS EC2 Dynamic Inventory Plugin Configuration
+plugin: amazon.aws.aws_ec2
+
+#For ansible_dynamic aws role
+access_key: 
+secret_key: 
+
+# AWS Region
+regions:
+  - eu-central-1
+
+# Фильтры для поиска инстансов
+filters:
+  # Только запущенные инстансы
+  instance-state-name: running
+  
+  # Опционально: только из твоего проекта
+#  "tag:Environment": stage  # или твой var.environment
+
+# Группировка хостов по тегам
+keyed_groups:
+  # Группа по тегу Role: bastion, test, app, monitoring
+  - key: tags.Role
+    prefix: role
+    separator: "_"
+  
+  # Группа по тегу Environment
+  - key: tags.Environment
+    prefix: env
+    separator: "_"
+  
+  # Группа по имени ASG (если есть)
+  - key: tags['aws:autoscaling:groupName']
+    prefix: asg
+    separator: "_"
+
+# Какой IP использовать для подключения
+hostnames:
+  - ip-address        # Public IP (для инстансов в public subnet)
+  - private-ip-address  # Private IP (если нужно через bastion)
+
+# Переменные для хостов
+compose:
+  ansible_host: public_ip_address  # Использовать public IP
+  ansible_user: ec2-user           # Пользователь для Amazon Linux 2023
+  
+# Использовать кэш для ускорения (опционально)
+cache: true
+cache_plugin: jsonfile
+cache_timeout: 300
+cache_connection: /tmp/aws_inventory_cache
+cache_prefix: aws_ec2

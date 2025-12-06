@@ -1,0 +1,23 @@
+---
+ansible_collections:
+  - community.general
+  - community.postgresql
+
+# Конфигурация ansible.cfg (опционально)
+ansible_config_create: true
+ansible_config_path: "/etc/ansible/ansible.cfg"
+
+# Настройки для ansible.cfg (если ansible_config_create: true)
+ansible_config:
+  defaults:
+    host_key_checking: false
+    inventory: "/etc/ansible/hosts"
+    remote_user: "ec2-user"
+    # gathering: "smart"
+    # timeout: 30
+  
+  # privilege_escalation:
+  #   become: true
+  #   become_method: "sudo"
+  #   become_user: "root"
+  #   become_ask_pass: false
